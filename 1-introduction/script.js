@@ -13,5 +13,5 @@ body.style.backgroundColor = `rgb(${a}, ${b}, ${c})`;
 
 let bodyChildren = document.body.children;
 for(child of bodyChildren) {
-    child.style.display = "";
+    console.log(child);
 }
