@@ -23,8 +23,32 @@
 
   <script>
     const childNodes = document.querySelector("ul").childNodes;
+
+    const display = (e) => {
+        if(isFandF(e.target.innerHTML)) {
+          alert("The most important franchise ever, the story of DOM(inic) Toretto's family. It's not about car, it's about family");
+        } else {
+          alert(`${e.target.innerHTML}`);
+        }
+    };
+
+    const isFandF = (s) => {
+      return s == "Fast and Furious";
+    }
+
+    const isFristChild = (node) => {
+      return childNodes.firstChild === node;
+    };
+
     for(const childNode of childNodes) {
-      
+      if(childNode.nodeType === 1) {
+        childNode.addEventListener("click", display);
+        if(isFandF(childNode.innerHTML) && !isFristChild(childNode)) {
+          const parent = childNode.parentNode;
+          parent.insertBefore(childNode, parent.firstChild);
+          childNode.classList.add("important");
+        }
+      }
     }
   </script>
 </body>
