@@ -106,11 +106,44 @@
     document.body.addEventListener("keyup", shuffleAndKeepFAndFirstOnRPress.bind(provided));
     document.body.addEventListener("keyup", shuffleAndKeepFAndFirstAndCloneItOnDPress.bind(provided));
 
-    const newDiv = document.createElement("div");
-    newDiv.innerHTML = "NEW DIV!";
+    const div = document.createElement("div");
+    div.innerHTML = "<p>NEW DIV!<p>";
     const ul = document.querySelector("ul");
     const bodyNode = ul.parentNode;
-    bodyNode.insertBefore(newDiv, ul);
+    bodyNode.insertBefore(div, ul);
+
+    const select = document.createElement("select");
+    const option1 = document.createElement("option");
+    option1.setAttribute("selected", "");
+    option1.innerHTML = "normal franchises";
+    const option2 = document.createElement("option");
+    option2.innerHTML = "important franchises";
+    select.append(option1, option2);
+    div.appendChild(select);
+
+    const hideNotImportant = (element) => {
+      if(!element.classList.contains("important")) {
+        element.style.visibility = "hidden";
+      }
+    };    
+
+    const displayNotImportant = (element) => {
+      if(!element.classList.contains("important")) {
+        element.style.visibility = "visible";
+      }
+    };
+
+    const displayOrHide = () => {
+      for(li of ul.children) {
+        if(select.selectedIndex === 0) {
+          displayNotImportant(li);
+        } else if(select.selectedIndex === 1) {
+          hideNotImportant(li);
+        }
+      }
+    };
+
+    select.addEventListener("change", displayOrHide);
     
   </script>
 </body>
