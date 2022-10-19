@@ -40,16 +40,78 @@
       return childNodes.firstChild === node;
     };
 
+    const removeDuplicates = (nodeList, node) => {
+      let cpt = 0;
+      for(const element of nodeList) {
+        if(element.isEqualNode(node)) {
+          ++cpt;
+        }
+        if(cpt > 1) {
+          element.parentNode.removeChild(element);
+          cpt = 0;
+        }
+      }
+    };
+
+    const fAndFirst = (node) => {
+      if(isFandF(node.innerHTML) && !isFristChild(node)) {
+          const parent = node.parentNode;
+          parent.insertBefore(node, parent.firstChild);
+          if(!node.classList.contains("important")) {
+            node.classList.add("important");
+          }
+        }
+    };
+
     for(const childNode of childNodes) {
       if(childNode.nodeType === 1) {
         childNode.addEventListener("click", display);
-        if(isFandF(childNode.innerHTML) && !isFristChild(childNode)) {
-          const parent = childNode.parentNode;
-          parent.insertBefore(childNode, parent.firstChild);
-          childNode.classList.add("important");
-        }
+        fAndFirst(childNode);
+        
+        removeDuplicates(childNodes, childNode);
       }
     }
+
+    const shuffleAndKeepFAndFirst = (random) => {
+      for(const childNode of childNodes) {
+          childNode.parentNode.appendChild(childNode, childNode.parentNode.children[random]);
+          fAndFirst(childNode);
+        }
+    };
+
+    const shuffleAndKeepFAndFirstOnRPress = (e) => {
+      if(e.key == "r" || e.keyCode == "Keyr") {
+        shuffleAndKeepFAndFirst();
+      }
+    };
+
+    const cloneFAndFOnTop = () => {
+      const newLi = document.createElement("li");
+      newLi.innerHTML = "Fast and Furious";
+      childNodes.item(0).parentNode.appendChild(newLi);
+      fAndFirst(newLi);
+    };
+
+    const shuffleAndKeepFAndFirstAndCloneItOnDPress = (e) => {
+      if(e.key == "d" || e.keyCode == "Keyd") {
+        shuffleAndKeepFAndFirst(provided.random);
+        cloneFAndFOnTop();
+      }
+    };
+
+    const provided = {
+      random: Math.floor(Math.random() * childNodes.length)
+    };
+
+    document.body.addEventListener("keyup", shuffleAndKeepFAndFirstOnRPress.bind(provided));
+    document.body.addEventListener("keyup", shuffleAndKeepFAndFirstAndCloneItOnDPress.bind(provided));
+
+    const newDiv = document.createElement("div");
+    newDiv.innerHTML = "NEW DIV!";
+    const ul = document.querySelector("ul");
+    const bodyNode = ul.parentNode;
+    bodyNode.insertBefore(newDiv, ul);
+    
   </script>
 </body>
 </html>
