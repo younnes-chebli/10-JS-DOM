@@ -34,10 +34,10 @@
 
     const isFandF = (s) => {
       return s == "Fast and Furious";
-    }
+    };
 
     const isFristChild = (node) => {
-      return childNodes.firstChild === node;
+      return node.parentNode.firstChild === node;
     };
 
     const removeDuplicates = (nodeList, node) => {
